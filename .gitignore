@@ -1,0 +1,9 @@
+//Backend
+
+backend/serviceAccountKey.json
+backend/node_modules
+
+
+
+//Frontend
+frontend/node_modules
