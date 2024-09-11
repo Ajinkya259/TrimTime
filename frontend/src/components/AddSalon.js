@@ -20,7 +20,7 @@ const AddSalon = () => {
 
   const addSalon = async (salonDetails) => {
     try {
-      const response = await fetch('http://localhost:5000/add-salon', {
+      const response = await fetch('http://localhost:5000/salon/add-salon', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
