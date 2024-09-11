@@ -1,0 +1,94 @@
+/* Center the content in the middle of the page */
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+  }
+  
+  /* Position the buttons at the top-right corner and align them side by side */
+  .button-container {
+    
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px; /* Adds space between the buttons */
+  }
+  
+  /* Styles for the login button */
+  .button-22 {
+    align-items: center;
+    appearance: button;
+    background-color: #0276FF;
+    border-radius: 8px;
+    border-style: none;
+    box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    font-family: "RM Neue", sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+    padding: 10px 21px;
+    text-align: center;
+    text-transform: none;
+    transition: color 0.13s ease-in-out, background 0.13s ease-in-out, opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
+    user-select: none;
+  }
+  
+  .button-22:active {
+    background-color: #006AE8;
+  }
+  
+  .button-22:hover {
+    background-color: #1C84FF;
+  }
+  
+  /* Styles for the signup button */
+  .button-23 {
+    background-color: #FFFFFF;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #222222;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 0;
+    outline: none;
+    padding: 13px 23px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.2s, transform 0.1s;
+    user-select: none;
+    width: auto;
+  }
+  
+  .button-23:focus-visible {
+    box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+    transition: box-shadow 0.2s;
+  }
+  
+  .button-23:active {
+    background-color: #F7F7F7;
+    border-color: #000000;
+    transform: scale(0.96);
+  }
+  
+  .button-23:disabled {
+    border-color: #DDDDDD;
+    color: #DDDDDD;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+  
