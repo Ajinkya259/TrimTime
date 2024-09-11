@@ -1,4 +1,3 @@
-# Ignore the service account key in the backend folder
 backend/serviceAccountKey.json
 
 backend/node_modules
