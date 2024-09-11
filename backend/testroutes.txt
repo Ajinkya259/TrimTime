@@ -1,0 +1,171 @@
+Here are the routes and Postman commands to test each of the functionalities for your salon appointment system:
+
+### 1. **User Signup**
+- **POST** `http://localhost:5000/salon/signup`
+- **Description**: Register a new user.
+
+#### Postman Request:
+- **Method**: `POST`
+- **URL**: `http://localhost:5000/salon/signup`
+- **Body (JSON)**:
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "password123",
+    "name": "John Doe"
+  }
+  ```
+- **Expected Response**:
+  ```json
+  {
+    "message": "User registered",
+    "token": "<JWT_TOKEN>"
+  }
+  ```
+
+### 2. **User Login**
+- **POST** `http://localhost:5000/salon/login`
+- **Description**: Log in a user and retrieve a JWT token.
+
+#### Postman Request:
+- **Method**: `POST`
+- **URL**: `http://localhost:5000/salon/login`
+- **Body (JSON)**:
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "password123"
+  }
+  ```
+- **Expected Response**:
+  ```json
+  {
+    "message": "User logged in",
+    "token": "<JWT_TOKEN>"
+  }
+  ```
+
+### 3. **Add a Salon**
+- **POST** `http://localhost:5000/salon/add`
+- **Description**: Adds a new salon.
+
+#### Postman Request:
+- **Method**: `POST`
+- **URL**: `http://localhost:5000/salon/add`
+- **Body (JSON)**:
+  ```json
+  {
+    "name": "Elegant Salon",
+    "address": "123 Main St",
+    "services": [
+      { "serviceName": "Haircut", "servicePrice": 25 },
+      { "serviceName": "Shaving", "servicePrice": 15 }
+    ]
+  }
+  ```
+- **Expected Response**:
+  ```json
+  {
+    "message": "Salon added successfully",
+    "salonId": "<Salon_ID>"
+  }
+  ```
+
+### 4. **Get All Salons**
+- **GET** `http://localhost:5000/salon/getsalons`
+- **Description**: Retrieve all available salons.
+
+#### Postman Request:
+- **Method**: `GET`
+- **URL**: `http://localhost:5000/salon/getsalons`
+
+- **Expected Response**:
+  ```json
+  [
+    {
+      "salonId": "<Salon_ID>",
+      "name": "Elegant Salon",
+      "address": "123 Main St",
+      "services": [
+        { "serviceName": "Haircut", "servicePrice": 25 },
+        { "serviceName": "Shaving", "servicePrice": 15 }
+      ]
+    }
+  ]
+  ```
+
+### 5. **Book an Appointment** (Requires Authentication)
+- **POST** `http://localhost:5000/salon/bookappointment`
+- **Description**: Book an appointment for a salon (requires user to be logged in and authenticated).
+
+#### Postman Request:
+- **Method**: `POST`
+- **URL**: `http://localhost:5000/salon/bookappointment`
+- **Headers**: 
+  - Authorization: `Bearer <JWT_TOKEN>` (from user login)
+- **Body (JSON)**:
+  ```json
+  {
+    "salonId": "<Salon_ID>",
+    "userId": "<User_ID>",
+    "appointmentTime": "2024-09-11T10:00:00Z"
+  }
+  ```
+- **Expected Response**:
+  ```json
+  {
+    "message": "Appointment booked successfully"
+  }
+  ```
+
+### 6. **Get Appointments by Salon and Date**
+- **GET** `http://localhost:5000/salon/:salonId/appointments?date=YYYY-MM-DD`
+- **Description**: Retrieve all appointments for a salon on a specific date.
+
+#### Postman Request:
+- **Method**: `GET`
+- **URL**: `http://localhost:5000/salon/<Salon_ID>/appointments?date=2024-09-11`
+
+- **Expected Response**:
+  ```json
+  {
+    "appointments": [
+      {
+        "appointmentId": "<Appointment_ID>",
+        "appointmentTime": "2024-09-11T10:00:00Z",
+        "userId": "<User_ID>"
+      }
+    ]
+  }
+  ```
+
+### 7. **Get Services for a Salon**
+- **GET** `http://localhost:5000/salon/:salonId/services`
+- **Description**: Retrieve the services offered by a salon.
+
+#### Postman Request:
+- **Method**: `GET`
+- **URL**: `http://localhost:5000/salon/<Salon_ID>/services`
+
+- **Expected Response**:
+  ```json
+  {
+    "services": [
+      { "serviceName": "Haircut", "servicePrice": 25 },
+      { "serviceName": "Shaving", "servicePrice": 15 }
+    ]
+  }
+  ```
+
+---
+
+### General Steps to Test:
+
+1. **Sign up a user** using the `/signup` route.
+2. **Log in** the user using the `/login` route and copy the token.
+3. Use the token to **add a salon** via the `/addsalon` route.
+4. **Retrieve salons** using the `/getsalons` route.
+5. **Book an appointment** using the `/bookappointment` route with the user token.
+6. **Get appointments** by salon and date using the `/appointments` route.
+
+These steps will help ensure that your system is working properly. You can also customize each request by tweaking the JSON input to match the data you're working with in Firestore.
