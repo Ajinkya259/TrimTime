@@ -9,6 +9,8 @@ const getsalons = require('./routes/getsalons');
 const getservices = require('./routes/getservices');
 const getappointments = require('./routes/salon-getallappointments'); // Import the get appointments route
 const bookAppointment = require('./routes/user-bookapointments'); // Import the route for booking appointments
+const uploadImage = require('./routes/uploadImage');  // Add image upload route
+
 const authenticateToken = require('./middleware/auth');
 
 const app = express();
@@ -22,6 +24,8 @@ app.use('/salon', getsalons); // Route for getting salons
 app.use('/salon', getservices); // Route for getting services
 app.use('/salon/user/', authenticateToken, bookAppointment); // Route for booking appointments
 app.use('/salon', getappointments); // Route for getting appointments
+app.use('/salon', uploadImage);  // Include the image upload route
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
