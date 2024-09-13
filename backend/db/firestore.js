@@ -5,7 +5,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   projectId: 'trimtime-fad68',
   storageBucket: 'trimtime-fad68.appspot.com'  // Add storageBucket configuration
-
 });
 
 const db = admin.firestore();
