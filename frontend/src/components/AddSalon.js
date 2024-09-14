@@ -1,65 +1,165 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const AddSalon = () => {
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
-  const [services, setServices] = useState('');
+  const [formData, setFormData] = useState({
+    salonName: '',
+    ownerName: '',
+    mobileNumber: '',
+    address: '',
+    salonImage: null,
+  });
+
+  const [availableServices] = useState([
+    'Haircut',
+    'Shave',
+    'Beard Trim',
+    'Hair Color',
+    'Facial',
+    'Manicure',
+    'Pedicure',
+    'Waxing',
+    'Massage',
+    'Scalp Treatment',
+    'Bridal Makeup',
+    'Regular Makeup',
+    'Nail Art',
+    'Hair Treatment',
+    'Hair Styling',
+  ]);
+
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [priceInput, setPriceInput] = useState('');
+  const [selectedService, setSelectedService] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === 'salonImage') {
+      setFormData({ ...formData, salonImage: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+  const handleServiceSelection = (serviceName, price) => {
+    // Create a service object and add it to an array
+    const newService = { serviceName, price };
+    const updatedServices = [...formData.services, newService];
+
+    setFormData({
+        ...formData,
+        services: JSON.stringify(updatedServices), // Send as a JSON string
+    });
+};
+
+  const handleServiceSelect = (e) => {
+    setSelectedService(e.target.value);
+  };
+
+  const handlePriceChange = (e) => {
+    setPriceInput(e.target.value);
+  };
+
+  const addService = () => {
+    if (selectedService && priceInput) {
+      setSelectedServices([...selectedServices, { name: selectedService, price: priceInput }]);
+      setSelectedService('');
+      setPriceInput('');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const salonDetails = {
-      name,
-      location,
-      services,
-    };
+    const form = new FormData();
+    form.append('salonName', formData.salonName);
+    form.append('ownerName', formData.ownerName);
+    form.append('mobileNumber', formData.mobileNumber);
+    form.append('services', JSON.stringify(selectedServices)); // Convert to string
+    form.append('address', formData.address);
+    form.append('salonImage', formData.salonImage);
 
-    // Call the function to send the request
-    await addSalon(salonDetails);
-  };
-
-  const addSalon = async (salonDetails) => {
     try {
-      const response = await fetch('http://localhost:5000/salon/add-salon', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(salonDetails),
-      });
-
-      const data = await response.text();
-      console.log('Server response:', data);
+        const response = await axios.post('/salon/add', form, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        alert(response.data.message || 'Salon registered successfully!');
     } catch (error) {
-      console.error('Error adding salon:', error);
+        console.error('Error registering salon:', error.response ? error.response.data : error);
+        alert('Failed to register salon: ' + (error.response ? error.response.data.error : 'Unknown error.'));
     }
-  };
+};
+
 
   return (
-    <div>
-      <h2>Add a Salon</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Salon Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Services (comma separated)"
-          value={services}
-          onChange={(e) => setServices(e.target.value)}
-        />
-        <button type="submit">Add Salon</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        name="salonName" 
+        value={formData.salonName} 
+        onChange={handleChange} 
+        placeholder="Salon Name" 
+        required 
+      />
+      <input 
+        type="text" 
+        name="ownerName" 
+        value={formData.ownerName} 
+        onChange={handleChange} 
+        placeholder="Owner Name" 
+        required 
+      />
+      <input 
+        type="text" 
+        name="mobileNumber" 
+        value={formData.mobileNumber} 
+        onChange={handleChange} 
+        placeholder="Mobile Number" 
+        required 
+      />
+
+      <h4>Select Services:</h4>
+      <select value={selectedService} onChange={handleServiceSelect}>
+        <option value="">Select a service</option>
+        {availableServices.map((service, index) => (
+          <option key={index} value={service}>{service}</option>
+        ))}
+      </select>
+      <input 
+        type="text" 
+        value={priceInput} 
+        onChange={handlePriceChange} 
+        placeholder="Enter Price" 
+      />
+      <button type="button" onClick={addService}>Add Service</button>
+
+      <h4>Selected Services:</h4>
+      <ul>
+        {selectedServices.map((service, index) => (
+          <li key={index}>
+            {service.name} - ₹{service.price}
+          </li>
+        ))}
+      </ul>
+
+      <input 
+        type="text" 
+        name="address" 
+        value={formData.address} 
+        onChange={handleChange} 
+        placeholder="Address" 
+        required 
+      />
+      <input 
+        type="file" 
+        name="salonImage" 
+        accept="image/*" 
+        onChange={handleChange} 
+        required 
+      />
+      <button type="submit">Register Salon</button>
+    </form>
   );
 };
 
