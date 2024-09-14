@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/firestore');
+const { db } = require('../db/firestore'); // Import db from firestore.js
 
 // Route to get all salons
 router.get('/getsalons', async (req, res) => {

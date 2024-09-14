@@ -1,13 +1,16 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('../serviceAccountKey.json');
+const serviceAccount = require('../serviceAccountKey.json'); // Ensure this path is correct
 
+// Initialize Firebase Admin SDK
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   projectId: 'trimtime-fad68',
+
   storageBucket: 'trimtime-fad68.appspot.com'  // Add storageBucket configuration
+
 });
 
 const db = admin.firestore();
-const bucket = admin.storage().bucket();  // Initialize Firebase Storage
+const bucket = admin.storage().bucket(); // Initialize Firebase Storage
 
-module.exports = {db,bucket};
+module.exports = { db, bucket };
