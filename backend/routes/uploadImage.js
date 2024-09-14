@@ -27,7 +27,7 @@ router.post('/uploadImage', upload.single('image'), async (req, res) => {
     const blobStream = blob.createWriteStream({
       resumable: false
     });
-
+    
     blobStream.on('error', (err) => {
       res.status(500).json({ message: 'Unable to upload image', error: err.message });
     });
